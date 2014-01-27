@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+	<title>AngularJS App</title>
+	<script src="js/lib/angular.js"></script>
+</head>
+<body>
+<div ng-controller="MyController">
+	<h5>Hello {{ clock.now }}</h5>
+</div>
+</body>
+<script>//We'll put this in a separate file like people that aren't insane
+/*
+ function MyController($scope) {
+ $scope.clock = new Date();
+ var updateClock = function(){
+ $scope.clock = new Date();
+ };
+ setInterval(function(){
+ $scope.$apply(updateClock);
+ }, 999);
+ updateClock();
+ }
+ */
+</script>
+<script type="text/javascript" src="js/02_clock.js"></script>
+</html>

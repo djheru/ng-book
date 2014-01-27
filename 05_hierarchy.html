@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+	<title>AngularJS App</title>
+	<script src="js/lib/angular.js"></script>
+</head>
+<body>
+	<div ng-controller="ParentController">
+		<p>{{greeting.text}}, World!</p>
+		<div ng-controller="ChildController">
+			<p>{{greeting.text}}, World!</p>
+		</div>
+		<p>{{greeting.text}}, World!</p>
+	</div>
+</body>
+<script>
+	var app = angular.module("myApp", []);
+	app.controller("ParentController", function ($scope) {
+		$scope.greeting = {
+			text: "Hello"
+		};
+	});
+	app.controller("ChildController", function($scope){
+		$scope.greeting = {
+			text: "yo"
+		}
+	});
+</script>
+</html>

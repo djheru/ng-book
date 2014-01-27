@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+	<title>AngularJS App</title>
+	<script src="js/lib/angular.js"></script>
+</head>
+<body>
+<div ng-controller="MyController">
+	<p>{{ name }}, World!</p>
+	<!-- pass params to the filter like so: -->
+	<p>{{ 123.4567 | number:2 }}</p>
+	<!-- chaining filters -->
+	<p>{{ 123.4567 | number:2 | currency }}</p>
+	<!-- Date filters -->
+	<p>date: 'medium'::{{ today | date: 'medium' }}</p>
+	<p>date: 'short'::{{ today | date: 'short' }}</p>
+	<p>date: 'fullDate'::{{ today | date: 'fullDate' }}</p>
+	<p>date: 'longDate'::{{ today | date: 'longDate' }}</p>
+	<p>date: 'mediumDate'::{{ today | date: 'mediumDate' }}</p>
+	<p>date: 'shortDate'::{{ today | date: 'shortDate' }}</p>
+	<p>date: 'mediumTime'::{{ today | date: 'mediumTime' }}</p>
+	<p>date: 'shortTime'::{{ today | date: 'shortTime' }}</p>
+
+	<p>date: 'Year Formatting yyyy'::{{ today | date: 'yyyy' }}</p>
+	<p>date: 'Year Formatting yy'::{{ today | date: 'yy' }}</p>
+	<p>date: 'Year Formatting y'::{{ today | date: 'y' }}</p>
+
+	<p>date: 'Month Formatting MMMM'::{{ today | date: 'MMMM' }}</p>
+	<p>date: 'Month Formatting MMM'::{{ today | date: 'MMM' }}</p>
+	<p>date: 'Month Formatting MM'::{{ today | date: 'MM' }}</p>
+	<p>date: 'Month Formatting M'::{{ today | date: 'M' }}</p>
+
+	<p>date: 'Day Formatting dd'::{{ today | date: 'dd' }}</p>
+	<p>date: 'Day Formatting d'::{{ today | date: 'd' }}</p>
+	<p>date: 'Day Formatting EEEE'::{{ today | date: 'EEEE' }}</p>
+	<p>date: 'Day Formatting EEE'::{{ today | date: 'EEE' }}</p>
+
+	<p>date: 'Hour Formatting dd'::{{ today | date: 'dd' }}</p>
+	<p>date: 'Hour Formatting d'::{{ today | date: 'd' }}</p>
+	<p>date: 'Hour Formatting EEEE'::{{ today | date: 'EEEE' }}</p>
+	<p>date: 'Hour Formatting EEE'::{{ today | date: 'EEE' }}</p>
+
+	<p>date: 'Minute Formatting mm'::{{ today | date: 'mm' }}</p>
+	<p>date: 'Minute Formatting m'::{{ today | date: 'm' }}</p>
+
+	<p>date: 'Second Formatting ss'::{{ today | date: 'ss' }}</p>
+	<p>date: 'Second Formatting s'::{{ today | date: 's' }}</p>
+	<p>date: 'Milisecond Formatting .sss'::{{ today | date: 'sss' }}</p>
+
+	<p>date: 'AM/PM'::{{ today | date: 'a' }}</p>
+
+	<p>date: 'Time zone offset'::{{ today | date: 'Z' }}</p>
+
+	<p>
+		Filter Objects:
+		{{ [
+				{'name': 'ari', 'city': 'San Francisco', 'favorite food': 'pizza' },
+				{'name': 'nate', 'city': 'Austin', 'favorite food': 'tacos' }
+			] | filter: {'favorite food': 'pizza'} | json }}
+	</p>
+	<p>
+		{{ ['ari', 'lerner', 'likes', 'to', 'eat', 'pizza'] | filter: 'e'  }}
+	</p>
+	<p>{{ ['ari', 'Likes', 'To', 'travel'] | filter:isCapitalized }}</p>
+	<p>{{ {'name': 'Ari', 'city':'San Francisco'} | json }}</p>
+	<p>{{ 'abcdefghijklmnop' | limitTo:5 }}</p>
+	<p>{{ 'abcdefghijklmnop' | limitTo:-5 }}</p>
+	<p>{{ ['a','b','c','d','e','f','g','h','j'] | limitTo: 2 }}</p>
+	<p>{{ "Every Good Boy Deserves Fudge" | lowercase }}</p>
+	<p>{{ "Every Good Boy Deserves Fudge" | uppercase }}</p>
+	<p>{{ 1234567890 | number }}</p>
+	<p>{{ 1.234567890 | number:3 }}</p>
+	<p>{{ [{"name": "phil", "status": "zimpin"},
+		{"name": "jimmy", "status": "jaz"},
+		{"name": "zorro", "status": "agro"}] | orderBy: 'status' }}</p>
+	<p>{{ [{"name": "phil", "status": "zimpin"},
+		{"name": "jimmy", "status": "jaz"},
+		{"name": "zorro", "status": "agro"}] | orderBy: 'status': true }}</p>
+	
+</div>
+</body>
+<script>
+	var app = angular.module("myApp", []);
+	app.controller("MyController", ['$scope', '$filter', function ($scope, $filter) {
+		$scope.name = $filter('lowercase')('Ari');
+		$scope.today = new Date();
+		$scope.isCapitalized = function(str){
+			return str[0] == str[0].toUpperCase();
+		}
+	}]);
+</script>
+</html>
