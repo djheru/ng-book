@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+	<title>AngularJS App</title>
+	<link rel="stylesheet" href="css/foundation.css">
+	<script src="js/lib/modernizr.js"></script>
+	<script src="js/lib/angular.js"></script>
+</head>
+<body>
+
+<form name="signup_form" novalidate ng-submit="signupForm()" ng-controller="signupController">
+	<fieldset>
+		<legend>Signup</legend>
+
+		<div class="row">
+			<div class="large-12 columns">
+				<label>Your Name</label>
+				<input type="text" placeholder="Name" name="name"  required
+				       ng-model="signup.name" ng-minlength="3" ng-maxlength="20" />
+				<div class="error"
+				     ng-show="signup_form.name.$dirty && signup_form.name.$invalid && signup_form.submitted">
+					<small class="error" ng-show="signup_form.name.$error.required">
+						Your name is required
+					</small>
+					<small class="error" ng-show="signup_form.name.$error.minlength">
+						Your name must be at least 3 characters long
+					</small>
+					<small class="error" ng-show="signup_form.name.$error.maxlength">
+						Your name must be less than 20 characters long
+					</small>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="large-12 columns">
+				<label>Your Email</label>
+				<input type="email" placeholder="Email Address" name="email" required
+				       ng-model="signup.email" ng-minlength="3" ng-maxlength="20" />
+				<div class="error"
+				     ng-show="signup_form.email.$dirty && signup_form.email.$invalid && signup_form.submitted">
+					<small class="error" ng-show="signup_form.email.$error.required">
+						Your email address is required
+					</small>
+					<small class="error" ng-show="signup_form.email.$error.email">
+						Please enter a valid email address
+					</small>
+					<small class="error" ng-show="signup_form.email.$error.minlength">
+						Your email address must be at least 3 characters long
+					</small>
+					<small class="error" ng-show="signup_form.email.$error.maxlength">
+						Your email address must be less than 20 characters long
+					</small>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="large-12 columns">
+				<label>Desired Username</label>
+				<input type="text" placeholder="Username" name="username" required
+				       ng-model="signup.username" ng-minlength="3" ng-maxlength="20" ensure-unique="username"/>
+				<div class="error"
+				     ng-show="signup_form.username.$dirty && signup_form.username.$invalid && signup_form.submitted">
+					<small class="error" ng-show="signup_form.username.$error.required">
+						Your username is required
+					</small>
+					<small class="error" ng-show="signup_form.username.$error.unique">
+						Please enter a different username, that one is taken
+					</small>
+					<small class="error" ng-show="signup_form.username.$error.minlength">
+						Your username must be at least 3 characters long
+					</small>
+					<small class="error" ng-show="signup_form.username.$error.maxlength">
+						Your username must be less than 20 characters long
+					</small>
+				</div>
+			</div>
+		</div>
+
+		<button type="submit" class="button radius">Submit</button>
+	</fieldset>
+</form>
+
+</body>
+<script>
+	var app = angular.module("myApp", []);
+
+	app.directive('ensureUnique', function($http){
+		return {
+			require: 'ngModel',
+			link: function(scope, ele, attrs, c){
+				scope.$watch(attrs.ngModel, function(n){
+					if(!n){
+						return;
+					}
+					$http({
+						method: 'POST',
+						url: '/ng-book/api/check/' + attrs.ensureUnique + '.json',
+						data: {'field': attrs.ensureUnique}
+					}).success(function(data){
+							console.log(data);
+							c.$setValidity('unique', data.isUnique);
+						}).error(function(data){
+							c.$setValidity('unique', false);
+						});
+				});
+			}
+		}
+	});
+
+	app.controller("signupController", function ($scope) {
+		$scope.submitted = false;
+		$scope.signupForm = function(){
+			if($scope.signup_form.$valid){
+				//Submit as normal
+
+			} else {
+				$scope.signup_form.submitted = true;
+			}
+		}
+	});
+</script>
+</html>

@@ -5,13 +5,13 @@
 	<script src="js/lib/angular.js"></script>
 </head>
 <body>
-	<div ng-controller="ParentController">
-		<p>{{greeting.text}}, World!</p>
-		<div ng-controller="ChildController">
-			<p>{{greeting.text}}, World!</p>
-		</div>
+<div ng-controller="ParentController">
+	<p>{{greeting.text}}, World!</p>
+	<div ng-controller="ChildController">
 		<p>{{greeting.text}}, World!</p>
 	</div>
+	<p>{{greeting.text}}, World!</p>
+</div>
 </body>
 <script>
 	var app = angular.module("myApp", []);
